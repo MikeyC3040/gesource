@@ -1,0 +1,18 @@
+{
+  "id": "gesource",
+  "repository": "",
+  "version": "0.0.1",
+  "compatibleGames": [
+    "other"
+  ],
+  "compatibleSizes": [
+    "large"
+  ],
+  "locale": {
+    "en": {
+      "name": "GE:Source Tools",
+      "description": "Some quick actions for GE Server",
+      "radar.on": "Radar On"
+    }
+  }
+}
