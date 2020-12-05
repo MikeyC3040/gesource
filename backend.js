@@ -6,13 +6,39 @@ var steamapi = require(__dirname + "/../../../src/steamapi");
 var widget = new Widget();
 
 /** @type {object} */
-widget.serverstatus = {};
+widget.availableMaps = {};
+widget.gamePlayList = {};
+widget.weaponList = {};
 
 /**
  * On rcon server has successfully connected and authenticated
  * @param {RconServer} server
  */
 widget.onServerConnected = function (server) {
+    widget.gamePlayList[server.id] = [];
+    widget.availableMaps[server.id] = [];
+    widget.weaponList[server.id] = [];
+    server.cmd("ge_gameplaylist", null, false, function(data){
+        var lines = data.split("\n");
+        for (var i = 1; i < lines.length; i++) {
+            var line = lines[i];
+            widget.gamePlayList[server.id].push(line);
+        }
+    });
+    server.cmd("maps *", null, false, function(data){
+        var lines = data.split("\n");
+        for (var i = 1; i < lines.length; i++) {
+            var line = lines[i].substring(16).split(".")[0];
+            widget.availableMaps[server.id].push(line);
+        }
+    });
+    server.cmd("ge_weaponset_list", null, false, function(data){
+        var lines = data.split("\n");
+        for (var i = 1; i < lines.length; i++) {
+            var line = lines[i];
+            widget.weaponList[server.id].push(line);
+        }
+    });
 };
 
 /**
@@ -31,7 +57,17 @@ widget.onWidgetAdded = function (server) {
  * @param {function} callback Pass an object as message data response for the frontend
  */
 widget.onFrontendMessage = function (server, user, action, messageData, callback) {
-
+    switch(action) {
+        case "gamePlayList":
+            callback(this, widget.gamePlayList[server.id]);
+            break;
+        case "availableMaps":
+            callback(this, widget.availableMaps[server.id]);
+            break;
+        case "availableWeapons":
+            callback(this, widget.weaponList[server.id]);
+            break;
+    }
 };
 
 /**

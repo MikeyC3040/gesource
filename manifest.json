@@ -1,6 +1,6 @@
 {
   "id": "gesource",
-  "repository": "",
+  "repository": "MikeyC3040/qmk",
   "version": "0.0.1",
   "compatibleGames": [
     "other"
@@ -11,8 +11,7 @@
   "locale": {
     "en": {
       "name": "GE:Source Tools",
-      "description": "Some quick actions for GE Server",
-      "radar.on": "Radar On"
+      "description": "Some quick actions for GE Server"
     }
   }
 }
